@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import '../styles/main.css';
-import { REPLHistory } from './REPLHistory';
-import { REPLInput } from './REPLInput';
+import { useState } from "react";
+import "../styles/main.css";
+import { REPLHistory } from "./REPLHistory";
+import { REPLInput } from "./REPLInput";
 
 /* 
   You'll want to expand this component (and others) for the sprints! Remember 
@@ -14,22 +14,27 @@ import { REPLInput } from './REPLInput';
 
 export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
-  const [history, setHistory] = useState<string[]>([])
-  const [notification, setNotification] = useState('');
+  const [history, setHistory] = useState<string[]>([]);
+  const [notification, setNotification] = useState("");
   const [mode, setMode] = useState<boolean>(true);
 
-return (
-    <div className="repl">  
+  return (
+    <div className="repl">
       {/*This is where your REPLHistory might go... You also may choose to add it within your REPLInput 
       component or somewhere else depending on your component organization. What are the pros and cons of each? */}
       {/* CHANGED */}
-      <REPLHistory history ={history} mode={mode}/>
+      <REPLHistory history={history} mode={mode} />
       <hr></hr>
       {/* CHANGED */}
-      <REPLInput history={history} mode={mode} setHistory={setHistory} setNotification={setNotification} setMode={setMode}/>
-    
-    {/* STATUS MESSAGE TODO */} 
-    {notification}
+      <REPLInput
+        history={history}
+        mode={mode}
+        setHistory={setHistory}
+        setNotification={setNotification}
+        setMode={setMode}
+      />
+      {/* STATUS MESSAGE TODO */}
+      {notification}
     </div>
   );
 }
