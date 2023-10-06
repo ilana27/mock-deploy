@@ -4,9 +4,11 @@ import { ControlledInput } from './ControlledInput';
 
 interface REPLInputProps{
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  // CHANGED
   history: string[],
+  mode: boolean,
   setHistory: Dispatch<SetStateAction<string[]>>,
+  setNotification: Dispatch<SetStateAction<string>>,
+  setMode: Dispatch<SetStateAction<boolean>>,
 }
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
@@ -14,11 +16,31 @@ export function REPLInput(props : REPLInputProps) {
     // Remember: let React manage state in your webapp. 
     // Manages the contents of the input box
     const [commandString, setCommandString] = useState<string>('');
-    // Manages the current amount of times the button is clicked
+    // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0);
+    const [filepath, setFilepath] = useState<string>('');
     
-    // This function is triggered when the button is clicked.
+    // TODO WITH TA: build a handleSubmit function called in button onClick
+    // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
+    // add to it with new commands.
+        // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
+      let commandArr: Array<string>  = commandString.split(" ");
+      let command: String = commandArr[0];
+      if (command = "mode") {
+        props.setMode(!props.mode);
+      } else if (command === "load_file") {
+        //view 
+        
+        setFilepath(commandArr[1]);
+      } else if (command = "view") {
+        //
+      } else if (command = "search") {
+        // 
+      } else {
+        props.setNotification('Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>');
+      }
+      
       setCount(count+1)
       // CHANGED
       props.setHistory([...props.history, commandString])
@@ -38,8 +60,10 @@ export function REPLInput(props : REPLInputProps) {
               <legend>Enter a command:</legend>
               <ControlledInput value={commandString} setValue={setCommandString} ariaLabel={"Command input"}/>
             </fieldset>
+            {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
             {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
             <button onClick={() => handleSubmit(commandString)}>Submitted {count} times</button>
+
         </div>
     );
   }
