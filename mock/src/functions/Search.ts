@@ -7,6 +7,14 @@ export function search(
   hasHeader: boolean,
   commandString: string
 ) {
+  let validFiles: string[] = [
+    "data/filepath1",
+    "data/filepath2",
+    "data/ten-star.csv",
+    "data/ten-star_no_headings.csv",
+    "data/empty.csv",
+    "data/dol_ri_earnings_disparity.csv",
+  ];
   let searchMap = new Map<string, string[][]>([
     ["data/filepath1 1 The true", [["The", "song", "remains", "the", "same."]]],
     [
@@ -127,7 +135,13 @@ export function search(
       String(hasHeader)
   );
 
-  if (result === undefined) {
+  if (!validFiles.includes(filepath)) {
+    return new Command(
+      commandString,
+      [],
+      "Error: CSV file could not be searched. Load correct filepath first."
+    );
+  } else if (result === undefined) {
     return new Command(
       commandString,
       [],
