@@ -1,4 +1,5 @@
 import "../styles/main.css";
+import CsvTable from "./CsvTable";
 import { Command } from "./REPL";
 
 interface REPLHistoryProps {
@@ -18,6 +19,7 @@ export function REPLHistory(props: REPLHistoryProps) {
           <div>
             <p>Command: {command.commandString}</p>
             <p>Ouptut: {command.message}</p>
+            <CsvTable data={command.data}/>
           </div>
         )
       )}
