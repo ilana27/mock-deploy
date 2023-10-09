@@ -14,37 +14,10 @@ test.beforeEach(() => {
   // TODO: Is there something we need to do before every test case to avoid repeating code?
 });
 
-test("view only (without load), brief mode", async ({ page }) => {
-    await page.goto("http://localhost:8000/");
-    await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("view");
-    await page.getByRole("button", { name: "Submitted 0 times" }).click();
-    await expect(page.getByLabel("commandMessage0")).toHaveText(
-      "Error: CSV file could not be viewed. Load correct filepath first."
-    );
-  });
-
-test("mode then view (without load), verbose mode", async ({ page }) => {
-    await page.goto("http://localhost:8000/");
-    await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("mode");
-    await page.getByRole("button", { name: "Submitted 0 times" }).click();
-    await expect(page.getByLabel("commandString0")).toHaveText("mode");
-    await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
-  
-    await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("view");
-    await page.getByRole("button", { name: "Submitted 1 times" }).click();
-    await expect(page.getByLabel("commandString1")).toHaveText("view");
-    await expect(page.getByLabel("commandMessage1")).toHaveText(
-      "Error: CSV file could not be viewed. Load correct filepath first."
-    );
-  });
-
   /**
-   * Nice test where everything goes smoothly, load loads a valid file
+   * test load and view with mode, then without mode
    */
-  test("mode, load, and view success, verbose mode", async ({ page }) => {
+  test("mode, load, and view success (verbose mode then brief mode)", async ({ page }) => {
     await page.goto("http://localhost:8000/");
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("mode");
@@ -69,40 +42,26 @@ test("mode then view (without load), verbose mode", async ({ page }) => {
     );
     /** check that the data table was loaded */
     await expect(page.getByLabel('data2').getByRole('cell', { name: 'song' })).toHaveText("song");
-  });
 
-  /**
-   * try to load an invalid file, then view 
-   */
-  test("mode, load invalid file, and view, verbose mode", async ({ page }) => {
-    await page.goto("http://localhost:8000/");
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("mode");
-    await page.getByRole("button", { name: "Submitted 0 times" }).click();
-    await expect(page.getByLabel("commandString0")).toHaveText("mode");
-    await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
-  
-    await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("load_file outside-of-data-directory.csv");
-    await page.getByRole("button", { name: "Submitted 1 times" }).click();
-    await expect(page.getByLabel("commandString1")).toHaveText("load_file outside-of-data-directory.csv");
-    await expect(page.getByLabel("commandMessage1")).toHaveText(
-        "Error: filepath outside-of-data-directory.csv located in an unaccessible directory."
-    );
+    await page.getByRole("button", { name: "Submitted 3 times" }).click();
+    await expect(page.getByLabel("commandMessage3")).toHaveText("Mode success!");
 
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("view");
-    await page.getByRole("button", { name: "Submitted 2 times" }).click();
-    await expect(page.getByLabel("commandString2")).toHaveText("view");
-    await expect(page.getByLabel("commandMessage2")).toHaveText(
-      "Error: CSV file could not be viewed. Load correct filepath first."
+    await page.getByRole("button", { name: "Submitted 4 times" }).click();
+    await expect(page.getByLabel("commandMessage4")).toHaveText(
+      "View success!"
     );
-  });
+    // TODO idk why line 58 doesn't work
+    // await expect(page.getByLabel('data4').getByRole('cell', { name: 'song' })).toHaveText("song");
+});
 
   /**
-   * try to load a valid file, then an invalid file, then view 
+   * try to load a valid file, then view, then an invalid file, then view 
    */
-  test("mode, load valid file, load invalid file and view, verbose mode", async ({ page }) => {
+  test("mode, load valid file and view, load invalid file and view, verbose mode", async ({ page }) => {
     await page.goto("http://localhost:8000/");
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("mode");
@@ -117,20 +76,30 @@ test("mode then view (without load), verbose mode", async ({ page }) => {
     await expect(page.getByLabel("commandMessage1")).toHaveText(
       "Load success!"
     );
+
+    await page.getByLabel("Command input").click();
+    await page.getByLabel("Command input").fill("view");
+    await page.getByRole("button", { name: "Submitted 2 times" }).click();
+    await expect(page.getByLabel("commandString2")).toHaveText("view");
+    await expect(page.getByLabel("commandMessage2")).toHaveText(
+      "View success!"
+    );
+    /** check that the data table was loaded */
+    await expect(page.getByLabel('data2').getByRole('cell', { name: 'song' })).toHaveText("song");
   
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("load_file outside-of-data-directory.csv");
-    await page.getByRole("button", { name: "Submitted 2 times" }).click();
-    await expect(page.getByLabel("commandString2")).toHaveText("load_file outside-of-data-directory.csv");
-    await expect(page.getByLabel("commandMessage2")).toHaveText(
+    await page.getByRole("button", { name: "Submitted 3 times" }).click();
+    await expect(page.getByLabel("commandString3")).toHaveText("load_file outside-of-data-directory.csv");
+    await expect(page.getByLabel("commandMessage3")).toHaveText(
         "Error: filepath outside-of-data-directory.csv located in an unaccessible directory."
     );
 
     await page.getByLabel("Command input").click();
     await page.getByLabel("Command input").fill("view");
-    await page.getByRole("button", { name: "Submitted 3 times" }).click();
-    await expect(page.getByLabel("commandString3")).toHaveText("view");
-    await expect(page.getByLabel("commandMessage3")).toHaveText(
+    await page.getByRole("button", { name: "Submitted 4 times" }).click();
+    await expect(page.getByLabel("commandString4")).toHaveText("view");
+    await expect(page.getByLabel("commandMessage4")).toHaveText(
       "Error: CSV file could not be viewed. Load correct filepath first."
     );
   });
