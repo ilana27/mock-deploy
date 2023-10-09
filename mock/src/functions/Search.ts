@@ -8,20 +8,40 @@ export function search(
   commandString: string
 ) {
   let searchMap = new Map<string, string[][]>([
-    ["data/filepath11Thetrue", [["The", "song", "remains", "the", "same."]]],
+    ["data/filepath1 1 The true", [["The", "song", "remains", "the", "same."]]],
     [
-      "data/filepath2eAritrue",
+      "data/filepath 2 e Ari true",
       [
         ["a", "b", "c", "d", "e"],
         ["Hi", "my", "name", "is", "Ari"],
       ],
+    ],
+    ["data/empty.csv 0 0 true", [[]]],
+    ["data/empty.csv 0 0 false", [[]]],
+    ["data/ten-star.csv 0 0 true", [["0", "Sol", "0", "0", "0"]]],
+    ["data/ten-star.csv 0 0 false", [["0", "Sol", "0", "0", "0"]]],
+    ["data/ten-star.csv StarID 0 true", [["0", "Sol", "0", "0", "0"]]],
+    ["data/ten-star.csv StarID 4 true", []],
+    [
+      "data/ten-star_no_headings.csv 0 70667 true",
+      [["70667", "Proxima Centauri", "-0.47175", "-0.36132", "-1.15037"]],
+    ],
+    [
+      "data/ten-star_no_headings.csv 0 70667 false",
+      [["70667", "Proxima Centauri", "-0.47175", "-0.36132", "-1.15037"]],
     ],
   ]);
 
   let commandStringSplit: string[] = commandString.split(" ");
 
   console.log(
-    filepath + commandStringSplit[1] + commandStringSplit[2] + String(hasHeader)
+    filepath +
+      " " +
+      commandStringSplit[1] +
+      " " +
+      commandStringSplit[2] +
+      " " +
+      String(hasHeader)
   );
   let result = searchMap.get(
     filepath + commandStringSplit[1] + commandStringSplit[2] + String(hasHeader)
