@@ -34,7 +34,7 @@ export function REPLInput(props: REPLInputProps) {
     let newCommand: Command;
     if (command === "mode") {
       props.setMode(!props.mode);
-      newCommand = new Command(commandString, [], "success");
+      newCommand = new Command(commandString, [], "Mode success!");
     } else if (command === "load_file") {
       //load
       if (commandArr.length !== 2) {
@@ -51,7 +51,7 @@ export function REPLInput(props: REPLInputProps) {
     } else if (command === "view") {
       newCommand = view(filepath, commandString);
     } else if (command === "search") {
-      newCommand = search(filepath, hasHeader, commandString)
+      newCommand = search(filepath, hasHeader, commandString);
     } else {
       newCommand = new Command(
         commandString,
@@ -85,6 +85,7 @@ export function REPLInput(props: REPLInputProps) {
       </fieldset>
       {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
       {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
+      <br />
       <button onClick={() => handleSubmit(commandString)}>
         Submitted {count} times
       </button>

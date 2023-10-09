@@ -4,28 +4,51 @@
   give you this starter CSS. Feel free to modify it as you wish, though.
 */
 
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid;
+}
+
+td {
+  border: 1px solid;
+  padding: 5px;
+}
+
 .repl {
-    position:relative;
-    min-height:95vh;    
+  position: relative;
 }
 
-.repl-history {      
-    height:55vh;   
-    margin: auto;
-    display: block;
-    overflow: scroll;    
+.repl-history {
+  height: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  overflow: scroll;
+  text-align: center;
 }
 
-.repl-input {        
-    margin: auto;    
-    height:10vh;
+.repl-input {
+  margin: auto;
+  height: 10vh;
 }
 .repl-command-box {
-    width: 90%;            
-    margin: auto;
-    display: block;
+  width: 90%;
+  margin: auto;
+  display: block;
 }
-button{
-    margin: auto;
-    display: block;
+button {
+  margin: auto;
+  display: block;
 }
+
+.boldText {
+  font-weight: bold;
+}
+
+/*
+.leftAlign {
+  text-align: left;
+  margin-left: 40%;
+}
+*/

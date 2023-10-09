@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Command } from "../components/REPL";
 
 /**
- * 
  *
- * 
+ *
+ *
  */
 export function load(
   commandArr: string[],
@@ -19,7 +19,9 @@ export function load(
       (filepathSplit[0] === "." && filepathSplit[1] === "data")
     )
   ) {
-    return "Error: filepath " + filepath + " located in an unaccessible directory.";
+    return (
+      "Error: filepath " + filepath + " located in an unaccessible directory."
+    );
   }
   if (commandArr.length > 2) {
     let hasHeader = commandArr[2];
@@ -31,5 +33,9 @@ export function load(
       return "Error: header parameter must be either true or false.";
     }
   }
-  return "Load success!";
+  let validFiles: string[] = ["data/filepath1", "data/filepath2"];
+  if (validFiles.includes(filepath)) {
+    return "Load success!";
+  }
+  return "Error: " + filepath + "not found";
 }
