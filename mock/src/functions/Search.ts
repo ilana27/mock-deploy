@@ -16,8 +16,8 @@ export function search(
         ["Hi", "my", "name", "is", "Ari"],
       ],
     ],
-    ["data/empty.csv 0 0 true", [[]]],
-    ["data/empty.csv 0 0 false", [[]]],
+    ["data/empty.csv 0 0 true", []],
+    ["data/empty.csv 0 0 false", []],
     ["data/ten-star.csv 0 0 true", [["0", "Sol", "0", "0", "0"]]],
     ["data/ten-star.csv 0 0 false", [["0", "Sol", "0", "0", "0"]]],
     ["data/ten-star.csv StarID 0 true", [["0", "Sol", "0", "0", "0"]]],
@@ -30,11 +30,94 @@ export function search(
       "data/ten-star_no_headings.csv 0 70667 false",
       [["70667", "Proxima Centauri", "-0.47175", "-0.36132", "-1.15037"]],
     ],
+    [
+      "data/dol_ri_earnings_disparity.csv 0 RI true",
+      [
+        ["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"],
+        ["RI", "Black", " $770.26 ", "30424.80376", " $0.73 ", "6%"],
+        [
+          "RI",
+          "Native American/American Indian",
+          " $471.07 ",
+          "2315.505646",
+          " $0.45 ",
+          "0%",
+        ],
+        [
+          "RI",
+          "Asian-Pacific Islander",
+          '" $1,080.09 "',
+          "18956.71657",
+          " $1.02 ",
+          "4%",
+        ],
+        ["RI", "Hispanic/Latino", " $673.14 ", "74596.18851", " $0.64 ", "14%"],
+        ["RI", "Multiracial", " $971.89 ", "8883.049171", " $0.92 ", "2%"],
+      ],
+    ],
+    [
+      "data/dol_ri_earnings_disparity.csv 0 RI false",
+      [
+        ["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"],
+        ["RI", "Black", " $770.26 ", "30424.80376", " $0.73 ", "6%"],
+        [
+          "RI",
+          "Native American/American Indian",
+          " $471.07 ",
+          "2315.505646",
+          " $0.45 ",
+          "0%",
+        ],
+        [
+          "RI",
+          "Asian-Pacific Islander",
+          '" $1,080.09 "',
+          "18956.71657",
+          " $1.02 ",
+          "4%",
+        ],
+        ["RI", "Hispanic/Latino", " $673.14 ", "74596.18851", " $0.64 ", "14%"],
+        ["RI", "Multiracial", " $971.89 ", "8883.049171", " $0.92 ", "2%"],
+      ],
+    ],
+    [
+      "data/dol_ri_earnings_disparity.csv State RI true",
+      [
+        ["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"],
+        ["RI", "Black", " $770.26 ", "30424.80376", " $0.73 ", "6%"],
+        [
+          "RI",
+          "Native American/American Indian",
+          " $471.07 ",
+          "2315.505646",
+          " $0.45 ",
+          "0%",
+        ],
+        [
+          "RI",
+          "Asian-Pacific Islander",
+          '" $1,080.09 "',
+          "18956.71657",
+          " $1.02 ",
+          "4%",
+        ],
+        ["RI", "Hispanic/Latino", " $673.14 ", "74596.18851", " $0.64 ", "14%"],
+        ["RI", "Multiracial", " $971.89 ", "8883.049171", " $0.92 ", "2%"],
+      ],
+    ],
+    ["data/dol_ri_earnings_disparity.csv State OH true", []],
+    [
+      "data/dol_ri_earnings_disparity.csv Data Type White true",
+      [["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"]],
+    ],
+    [
+      "data/dol_ri_earnings_disparity.csv 1 White true",
+      [["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"]],
+    ],
   ]);
 
   let commandStringSplit: string[] = commandString.split(" ");
-
-  console.log(
+  let result = searchMap.get(
     filepath +
       " " +
       commandStringSplit[1] +
@@ -42,9 +125,6 @@ export function search(
       commandStringSplit[2] +
       " " +
       String(hasHeader)
-  );
-  let result = searchMap.get(
-    filepath + commandStringSplit[1] + commandStringSplit[2] + String(hasHeader)
   );
 
   if (result === undefined) {
@@ -54,5 +134,14 @@ export function search(
       "Error: search unsuccessful, could not find the value in the given column."
     );
   }
-  return new Command(commandString, result, "Search success");
+  if (result.length === 0) {
+    return new Command(
+      commandString,
+      result,
+      'Search success! However, no rows matching the search criteria "' +
+        commandString +
+        '" were found.'
+    );
+  }
+  return new Command(commandString, result, "Search success!");
 }

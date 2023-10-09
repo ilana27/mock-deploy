@@ -38,6 +38,7 @@ export function load(
     "data/ten-star.csv",
     "data/ten-star_no_headings.csv",
     "data/empty.csv",
+    "data/dol_ri_earnings_disparity.csv"
   ];
   if (validFiles.includes(filepath)) {
     return "Load success!";

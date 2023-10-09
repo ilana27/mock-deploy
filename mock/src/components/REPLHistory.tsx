@@ -44,7 +44,7 @@ export function REPLHistory(props: REPLHistoryProps) {
               {command.message}
             </span>
             <span aria-label={"data" + String(index)}>
-                <CsvTable data={command.data} />
+              <CsvTable data={command.data} />
             </span>
             <br />
             <hr />
