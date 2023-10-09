@@ -5,12 +5,13 @@ import { Command } from "../components/REPL";
 /**
  * 
  *
- * @param guess A 3-number sequences
- * @returns true or false, depending on if the sequence matches
+ * 
  */
 export function load(
-  filepath: string,
+  commandArr: string[],
+  setHeader: Dispatch<SetStateAction<boolean>>
 ) {
+  let filepath = commandArr[1];
   let filepathSplit: string[] = filepath.split("/");
   if (
     !(
@@ -20,5 +21,15 @@ export function load(
   ) {
     return "Error: filepath " + filepath + " located in an unaccessible directory.";
   }
-  return "Load success";
+  if (commandArr.length > 2) {
+    let hasHeader = commandArr[2];
+    if (hasHeader.toLowerCase() === "true") {
+      setHeader(true);
+    } else if (hasHeader.toLowerCase() === "false") {
+      setHeader(false);
+    } else {
+      return "Error: header parameter must be either true or false.";
+    }
+  }
+  return "Load success!";
 }

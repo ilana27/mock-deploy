@@ -5,8 +5,6 @@ import { Command } from "../components/REPL";
 /**
  * 
  *
- * @param guess A 3-number sequences
- * @returns true or false, depending on if the sequence matches
  */
 export function view(
   filepath: string,

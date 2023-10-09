@@ -14,7 +14,10 @@ export function REPLHistory(props: REPLHistoryProps) {
       {/* TODO: To go through all the pushed commands... try the .map() function! */}
       {props.history.map((command, index) =>
         props.mode ? (
-          <p>{command.message}</p>
+            <div>
+                 <p>{command.message}</p>
+                <CsvTable data={command.data}/>
+            </div>
         ) : (
           <div>
             <p>Command: {command.commandString}</p>

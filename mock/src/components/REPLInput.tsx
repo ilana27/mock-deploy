@@ -4,6 +4,7 @@ import { ControlledInput } from "./ControlledInput";
 import { load } from "../functions/Load";
 import { Command } from "./REPL";
 import { view } from "../functions/View";
+import { search } from "../functions/Search";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -21,6 +22,7 @@ export function REPLInput(props: REPLInputProps) {
   // TODO WITH TA : add a count state
   const [count, setCount] = useState<number>(0);
   const [filepath, setFilepath] = useState<string>("");
+  const [hasHeader, setHeader] = useState<boolean>(true);
 
   // TODO WITH TA: build a handleSubmit function called in button onClick
   // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
@@ -42,16 +44,14 @@ export function REPLInput(props: REPLInputProps) {
           "Error: incorrect number of arguments given to load_file command"
         );
       } else {
-        let loadMessage: string = load(commandArr[1]);
+        let loadMessage: string = load(commandArr, setHeader);
         newCommand = new Command(commandString, [], loadMessage);
         setFilepath(commandArr[1]);
       }
     } else if (command === "view") {
-      //view
       newCommand = view(filepath, commandString);
     } else if (command === "search") {
-      //search
-      newCommand = new Command(commandString, [], "search success");
+      newCommand = search(filepath, hasHeader, commandString)
     } else {
       newCommand = new Command(
         commandString,
