@@ -40,5 +40,5 @@ export function view(
   if (result === undefined) {
     return new Command(commandString, [], "Error: CSV file could not be viewed. Load correct filepath first.");
   } 
-  return new Command(commandString, result, "View success");
+  return new Command(commandString, result, "View success!");
 }
