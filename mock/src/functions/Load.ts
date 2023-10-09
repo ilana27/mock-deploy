@@ -1,5 +1,6 @@
 // Note this is a .ts file, not .tsx. It's TypeScript, but not React.
 import { Dispatch, SetStateAction, useState } from "react";
+import { Command } from "../components/REPL";
 
 /**
  * Defines the kinds of sequence we are thinking of---the answer to
@@ -11,7 +12,6 @@ import { Dispatch, SetStateAction, useState } from "react";
  */
 export function load(
   filepath: string,
-  setNotification: Dispatch<SetStateAction<string>>
 ) {
   let filepathSplit: string[] = filepath.split("/");
   if (
@@ -20,8 +20,7 @@ export function load(
       (filepathSplit[0] === "." && filepathSplit[1] === "data")
     )
   ) {
-    setNotification(
-      "Error: filepath " + filepath + " located in an unaccessible directory."
-    );
+    return "Error: filepath " + filepath + " located in an unaccessible directory.";
   }
+  return "success";
 }

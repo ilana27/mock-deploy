@@ -2,13 +2,13 @@ import "../styles/main.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { load } from "../functions/Load";
+import { Command } from "./REPL";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  history: string[];
+  history: Command[];
   mode: boolean;
-  setHistory: Dispatch<SetStateAction<string[]>>;
-  setNotification: Dispatch<SetStateAction<string>>;
+  setHistory: Dispatch<SetStateAction<Command[]>>;
   setMode: Dispatch<SetStateAction<boolean>>;
 }
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
@@ -28,35 +28,40 @@ export function REPLInput(props: REPLInputProps) {
   function handleSubmit(commandString: string) {
     let commandArr: Array<string> = commandString.split(" ");
     let command: String = commandArr[0];
+    let newCommand: Command;
     if (command === "mode") {
       props.setMode(!props.mode);
-      props.setNotification("");
+      newCommand = new Command(commandString, [], "success");
     } else if (command === "load_file") {
       //load
       if (commandArr.length !== 2) {
-        props.setNotification(
+        newCommand = new Command(
+          commandString,
+          [],
           "Error: incorrect number of arguments given to load_file command"
         );
       } else {
-        props.setNotification("");
+        let loadMessage: string = load(commandArr[1]);
+        newCommand = new Command(commandString, [], loadMessage);
+        setFilepath(commandArr[1]);
       }
-      load(commandArr[1], props.setNotification);
-      setFilepath(commandArr[1]);
     } else if (command === "view") {
       //view
-      props.setNotification("");
+      newCommand = new Command(commandString, [], "view success");
     } else if (command === "search") {
       //search
-      props.setNotification("");
+      newCommand = new Command(commandString, [], "search success");
     } else {
-      props.setNotification(
+      newCommand = new Command(
+        commandString,
+        [],
         "Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
       );
     }
 
     setCount(count + 1);
     // CHANGED
-    props.setHistory([...props.history, commandString]);
+    props.setHistory([...props.history, newCommand]);
     setCommandString("");
   }
   /**

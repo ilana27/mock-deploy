@@ -12,10 +12,21 @@ import { REPLInput } from "./REPLInput";
   You don't need to do that for this gearup.
 */
 
+export class Command {
+  commandString: string;
+  data: string[][];
+  message: string;
+
+  constructor(commandString: string, data: string[][], message: string) {
+    this.commandString = commandString;
+    this.data = data;
+    this.message = message;
+  }
+}
+
 export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
-  const [history, setHistory] = useState<string[]>([]);
-  const [notification, setNotification] = useState("");
+  const [history, setHistory] = useState<Command[]>([]);
   const [mode, setMode] = useState<boolean>(true);
 
   return (
@@ -30,11 +41,8 @@ export default function REPL() {
         history={history}
         mode={mode}
         setHistory={setHistory}
-        setNotification={setNotification}
         setMode={setMode}
       />
-      {/* STATUS MESSAGE TODO */}
-      {notification}
     </div>
   );
 }
