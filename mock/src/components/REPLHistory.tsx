@@ -25,18 +25,26 @@ export function REPLHistory(props: REPLHistoryProps) {
       {props.history.map((command, index) =>
         props.mode ? (
           <div className="leftAlign">
-            <p>{command.message}</p>
+            <p aria-label={"commandMessage" + String(index)}>
+              {command.message}
+            </p>
             <CsvTable data={command.data} />
+            <br />
             <hr />
           </div>
         ) : (
           <div className="leftAlign">
             <span className="boldText">Command: </span>
-            <span>{command.commandString}</span>
+            <span aria-label={"commandString" + String(index)}>
+              {command.commandString}
+            </span>
             <br />
             <span className="boldText">Ouptut: </span>
-            <span>{command.message}</span>
+            <span aria-label={"commandMessage" + String(index)}>
+              {command.message}
+            </span>
             <CsvTable data={command.data} />
+            <br />
             <hr />
           </div>
         )
