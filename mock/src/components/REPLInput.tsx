@@ -58,7 +58,7 @@ export function REPLInput(props: REPLInputProps) {
       newCommand = new Command(
         commandString,
         [],
-        "Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
+        "Error: Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
       );
     }
 
