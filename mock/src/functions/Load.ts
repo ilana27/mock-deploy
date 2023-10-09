@@ -3,9 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Command } from "../components/REPL";
 
 /**
- * Defines the kinds of sequence we are thinking of---the answer to
- * the puzzle. We might imagine swapping in many of these and using
- * the same puzzle infrastructure.
+ * 
  *
  * @param guess A 3-number sequences
  * @returns true or false, depending on if the sequence matches
@@ -22,5 +20,5 @@ export function load(
   ) {
     return "Error: filepath " + filepath + " located in an unaccessible directory.";
   }
-  return "success";
+  return "Load success";
 }

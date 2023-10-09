@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { load } from "../functions/Load";
 import { Command } from "./REPL";
+import { view } from "../functions/View";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -47,7 +48,7 @@ export function REPLInput(props: REPLInputProps) {
       }
     } else if (command === "view") {
       //view
-      newCommand = new Command(commandString, [], "view success");
+      newCommand = view(filepath, commandString);
     } else if (command === "search") {
       //search
       newCommand = new Command(commandString, [], "search success");
