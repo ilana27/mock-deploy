@@ -7,19 +7,15 @@ import { view } from "../functions/View";
 import { search } from "../functions/Search";
 
 interface REPLInputProps {
-  // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   history: Command[];
   mode: boolean;
   setHistory: Dispatch<SetStateAction<Command[]>>;
   setMode: Dispatch<SetStateAction<boolean>>;
 }
-// You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
-// REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
+
 export function REPLInput(props: REPLInputProps) {
-  // Remember: let React manage state in your webapp.
   // Manages the contents of the input box
   const [commandString, setCommandString] = useState<string>("");
-  // TODO WITH TA : add a count state
   const [count, setCount] = useState<number>(0);
   const [filepath, setFilepath] = useState<string>("");
   const [hasHeader, setHeader] = useState<boolean>(true);
@@ -33,9 +29,6 @@ export function REPLInput(props: REPLInputProps) {
     }
   };
 
-  // TODO WITH TA: build a handleSubmit function called in button onClick
-  // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
-  // add to it with new commands.
   // This function is triggered when the button is clicked.
   function handleSubmit(commandString: string) {
     let commandArr: Array<string> = commandString.split(" ");
@@ -46,7 +39,7 @@ export function REPLInput(props: REPLInputProps) {
       newCommand = new Command(commandString, [], "Mode success!");
     } else if (command === "load_file") {
       //load
-      if (commandArr.length !== 2) {
+      if (commandArr.length >= 4 || commandArr.length <= 1) {
         newCommand = new Command(
           commandString,
           [],
@@ -80,10 +73,6 @@ export function REPLInput(props: REPLInputProps) {
    */
   return (
     <div className="repl-input" onKeyDown={handleKey}>
-      {/* This is a comment within the JSX. Notice that it's a TypeScript comment wrapped in
-            braces, so that React knows it should be interpreted as TypeScript */}
-      {/* I opted to use this HTML tag; you don't need to. It structures multiple input fields
-            into a single unit, which makes it easier for screenreaders to navigate. */}
       <fieldset>
         <legend>Enter a command:</legend>
         <ControlledInput
@@ -92,8 +81,6 @@ export function REPLInput(props: REPLInputProps) {
           ariaLabel={"Command input"}
         />
       </fieldset>
-      {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
-      {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
       <br />
       <button onClick={() => handleSubmit(commandString)}>
         Submitted {count} times
