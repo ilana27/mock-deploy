@@ -14,6 +14,9 @@ test.beforeEach(() => {
   // TODO: Is there something we need to do before every test case to avoid repeating code?
 });
 
+/**
+ * test attempting to view without loading first in brief mode
+ */
 test("view only (without load), brief mode", async ({ page }) => {
     await page.goto("http://localhost:8000/");
     await page.getByLabel("Command input").click();
@@ -24,6 +27,9 @@ test("view only (without load), brief mode", async ({ page }) => {
     );
   });
 
+  /**
+   * test attempting to view without loading first in verbose mode 
+   */
 test("mode then view (without load), verbose mode", async ({ page }) => {
     await page.goto("http://localhost:8000/");
     await page.getByLabel("Command input").click();
