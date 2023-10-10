@@ -54,8 +54,7 @@ test.beforeEach(() => {
     await expect(page.getByLabel("commandMessage4")).toHaveText(
       "View success!"
     );
-    // TODO idk why line 58 doesn't work
-    // await expect(page.getByLabel('data4').getByRole('cell', { name: 'song' })).toHaveText("song");
+    await expect(page.getByLabel('data4')).toBeVisible;
 });
 
   /**
