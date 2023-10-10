@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <div className="App-header">
-        <h1>Mock</h1>
+        <h1 aria-label="title">Mock</h1>
       </div>
       <REPL />
     </div>
