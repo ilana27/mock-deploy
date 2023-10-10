@@ -36,7 +36,7 @@ One small bug that could come up is if someone tries to search for a value by a 
 
 TO DO ->
 
-For our testing, we split our tests into multiple files: BasicFunctionality.spec.ts, ModeExtra.spec.ts, Load.spec.ts, View.spec.ts, Search.spec.ts, and Integration.spec.ts. BasicFunctionality just tests general page functionality, for example making sure all the elements load properly.
+For our testing, we split our tests into multiple files: BasicFunctionality.spec.ts, ModeExtra.spec.ts, Load.spec.ts, View.spec.ts, Search.spec.ts, and Integration.spec.ts. BasicFunctionality just tests general page functionality, for example making sure all the elements load
 
 ## Running the tests:
 
