@@ -1,5 +1,6 @@
 // Note this is a .ts file, not .tsx. It's TypeScript, but not React.
 import { Dispatch, SetStateAction, useState } from "react";
+import { validFiles } from "../functions/mockedJson";
 
 /**
  *
@@ -32,14 +33,6 @@ export function load(
       return "Error: header parameter must be either true or false.";
     }
   }
-  let validFiles: string[] = [
-    "data/filepath1",
-    "data/filepath2",
-    "data/ten-star.csv",
-    "data/ten-star_no_headings.csv",
-    "data/empty.csv",
-    "data/dol_ri_earnings_disparity.csv"
-  ];
   if (validFiles.includes(filepath)) {
     return "Load success!";
   }

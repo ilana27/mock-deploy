@@ -53,12 +53,12 @@ export function REPLInput(props: REPLInputProps) {
     } else if (command === "view") {
       newCommand = view(filepath, commandString);
     } else if (command === "search") {
-      newCommand = search(filepath, hasHeader, commandString);
+      newCommand = search(filepath, hasHeader, commandString, commandArr);
     } else {
       newCommand = new Command(
         commandString,
         [],
-        "Error: Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
+        "Error: Please provide a valid command. Valid commands: mode, load_file <csv-file-path>, view, or search <column> <value>"
       );
     }
 

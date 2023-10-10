@@ -57,7 +57,7 @@ test("call search after gibberish command, without parameters, brief mode", asyn
   await page.getByLabel("Command input").fill("hello");
   await page.getByRole("button", { name: "Submitted 0 times" }).click();
   await expect(page.getByLabel("commandMessage0")).toHaveText(
-    "Error: Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
+    "Error: Please provide a valid command. Valid commands: mode, load_file <csv-file-path>, view, or search <column> <value>"
   );
   // Write into command box
   await expect(page.getByLabel("Command input")).toBeVisible();
@@ -159,7 +159,7 @@ test("call search after loaded empty csv, without parameters, brief mode", async
   // Submit command
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText(
-    "Error: search unsuccessful, could not find the value in the given column."
+    "Error: incorrect number of arguments given to search command. Two arguments expected: <column> <value>."
   );
 });
 
@@ -211,7 +211,7 @@ test("call search after loaded ten-star csv, without parameters, brief mode", as
   // Submit command
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText(
-    "Error: search unsuccessful, could not find the value in the given column."
+    "Error: incorrect number of arguments given to search command. Two arguments expected: <column> <value>."
   );
 });
 
@@ -386,7 +386,7 @@ test("call search after loaded ten-star csv, one row found, no headers, nothing 
   // Submit command
   await page.getByRole("button", { name: "Submitted 2 times" }).click();
   await expect(page.getByLabel("commandMessage2")).toHaveText(
-    "Error: search unsuccessful, could not find the value in the given column. "
+    'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
   );
 });
 

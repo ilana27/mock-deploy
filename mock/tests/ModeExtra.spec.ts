@@ -65,7 +65,7 @@ test("gibberish command, call mode, then another gibberish command", async ({
   // Make sure that the commandString is hidden while in brief mode
   await expect(page.getByLabel("commandString0")).toBeHidden();
   await expect(page.getByLabel("commandMessage0")).toHaveText(
-    "Error: Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
+    "Error: Please provide a valid command. Valid commands: mode, load_file <csv-file-path>, view, or search <column> <value>"
   );
   // Set into verbose mode
   await page.getByLabel("Command input").click();
@@ -79,7 +79,7 @@ test("gibberish command, call mode, then another gibberish command", async ({
   await page.getByRole("button", { name: "Submitted 2 times" }).click();
   await expect(page.getByLabel("commandString2")).toHaveText("hello again");
   await expect(page.getByLabel("commandMessage2")).toHaveText(
-    "Error: Please provide a valid command. Valid commands: mode, load_file, view, or search <column><value>"
+    "Error: Please provide a valid command. Valid commands: mode, load_file <csv-file-path>, view, or search <column> <value>"
   );
   // Also check that we can now see commandString0!
   await expect(page.getByLabel("commandString0")).toHaveText("hello");
