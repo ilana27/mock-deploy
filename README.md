@@ -13,8 +13,6 @@ Total estimated time: ~20 hours
 
 ## Design choices:
 
-TO DO ->
-
 Here are a few notable design choices we made:
 
 - We chose to use the App.tsx file as the main driver for the website, with REPL as the exported function running the main page. REPL calls REPLHistory, which displays the past commands and outputs given by the user, and REPLInput, which handles the input from the user by parsing the text and calling the appropriate functions for load_file, view, and search. 
@@ -34,9 +32,7 @@ One small bug that could come up is if someone tries to search for a value by a 
 
 ## Tests:
 
-TO DO ->
-
-For our testing, we split our tests into multiple files: BasicFunctionality.spec.ts, ModeExtra.spec.ts, Load.spec.ts, View.spec.ts, Search.spec.ts, and Integration.spec.ts. BasicFunctionality just tests general page functionality, for example making sure all the elements load
+For our testing, we split our tests into multiple files: BasicFunctionality.spec.ts, ModeExtra.spec.ts, Load.spec.ts, View.spec.ts, Search.spec.ts, and Integration.spec.ts. BasicFunctionality just tests general page functionality, for example making sure all the elements load properly and that commands get pushed properly. ModeExtra tests that the mode command works as expected, even when called multiple times in a row, and also that the program is able to handle invalid commands. Load tests the load functionality, including attempting to load an invalid filepath, a valid filepath that leads to an empty CSV, and valid filepaths with and without headers. View tests the view functionality, including attempting to view without loading any file, attempting to view after an unsuccessful load attempt, and viewing a file successfully. There are also some integration tests in this file relating to multiple sequences of calling mode, load, and view. Search tests the search functionality including many different shapes of possible search commands, like calling search without any of the required arguments, calling search with an invalid column identifier, calling search with a valid column identifier but a value that is not in the CSV, and finally some successful searches. There is also some integratio tests involving searching after failed load commands. Lastly, Integration tests the integration of multiple commands and the interactions between states, such as trying to load a valid file and viewing it, then loading an invalid file and viewing it. There is also a test for loading an invalid file, trying to search, loading a valid file, doing an unsuccessful search, and then doing a successful search. Finally, there is a test to load a valid file, do a successful search, load a new file, try to search on the old file and fail, then finally do a successful search on the new file.
 
 ## Running the tests:
 
@@ -45,3 +41,9 @@ To run the tests in our program, first run `npx playwright install` to install P
 ## Running the program:
 
 To run our program locally, first run `npm install`, to ensure that you have all dependencies needed by our program. Next, run `npm start`, which will start the program running locally on your computer. Then, navigate to http://localhost:8000/ to use the program!
+
+On the page, valid commands include:
+mode: changes the mode from brief to verbose and vice versa
+load &lt;filepath&gt; &lt;hasHeader = true or false&gt;: loads in a CSV from the given filepath 
+view: displays the currently-loaded CSV
+search &lt;column identifier = column index or column name&gt; &lt;value&gt;: searches the currently-loaded CSV for the given value in the column corresponding with the column identifier
