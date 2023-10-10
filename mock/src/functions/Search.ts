@@ -1,5 +1,5 @@
 // Note this is a .ts file, not .tsx. It's TypeScript, but not React.
-import { Command } from "../components/REPL";
+import { Command } from "../functions/Command";
 import { validFiles, searchMap } from "../functions/mockedJson";
 
 export function search(
