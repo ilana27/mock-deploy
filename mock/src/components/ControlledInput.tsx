@@ -1,25 +1,33 @@
-import '../styles/main.css';
-import { Dispatch, SetStateAction } from 'react';
+import "../styles/main.css";
+import { Dispatch, SetStateAction } from "react";
 
-// Remember that parameter names don't necessarily need to overlap;
-// I could use different variable names in the actual function.
+/**
+ * These are the props for the ControlledInput component.
+ * - value is the value that is entered into the command box
+ * - setValue is a function that allows the caller to update value
+ * - ariaLabel is the label for the input that allows playwright testing
+ */
 interface ControlledInputProps {
-    value: string, 
-    // This type comes from React+TypeScript. VSCode can suggest these.
-    //   Concretely, this means "a function that sets a state containing a string"
-    setValue: Dispatch<SetStateAction<string>>,
-    ariaLabel: string 
-  }
-  
-  // Input boxes contain state. We want to make sure React is managing that state,
-  //   so we have a special component that wraps the input box.
-  export function ControlledInput({value, setValue, ariaLabel}: ControlledInputProps) {
-    return (
-      <input type="text" className="repl-command-box"
-            value={value} 
-            placeholder="Enter command here!"
-            onChange={(ev) => setValue(ev.target.value)}
-            aria-label={ariaLabel}>
-      </input>
-    );
-  }
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
+  ariaLabel: string;
+}
+
+/**
+ * This component allows the user to type their input into the command box, and
+ * updates the variable value as the user types.
+ * @param props is the interface above containing the arguments to ControlledInput
+ * @returns an HTML input that shows and updates the text that the user has entered
+ */
+export function ControlledInput(props: ControlledInputProps) {
+  return (
+    <input
+      type="text"
+      className="repl-command-box"
+      value={props.value}
+      placeholder="Enter command here!"
+      onChange={(ev) => props.setValue(ev.target.value)}
+      aria-label={props.ariaLabel}
+    ></input>
+  );
+}

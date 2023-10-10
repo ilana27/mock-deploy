@@ -1,4 +1,4 @@
-import { Command } from "../components/REPL";
+import { Command } from "../functions/Command";
 import { filepathMap } from "../functions/mockedJson";
 
 /**

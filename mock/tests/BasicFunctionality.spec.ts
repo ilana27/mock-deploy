@@ -21,6 +21,18 @@ test("on page load, i see an input bar", async ({ page }) => {
 });
 
 /**
+ * This test asserts that there is a legend for the input bar, with proper info.
+ */
+test("on page load, i see an legend for the input bar", async ({ page }) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  await expect(page.getByLabel("legend")).toBeVisible();
+  await expect(page.getByLabel("legend")).toHaveText(
+    "Enter a command: mode, load_file <csv-file-path>, view, or search <column> <value>"
+  );
+});
+
+/**
  * This test asserts that the when the user puts text into the text box,
  * the new text in the box represents the user's input.
  */
