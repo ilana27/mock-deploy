@@ -1,8 +1,7 @@
 /**
  * Search function
  */
-
-import { Command } from "../components/REPL";
+import { Command } from "../functions/Command";
 import { validFiles, searchMap } from "../functions/mockedJson";
 
 /**

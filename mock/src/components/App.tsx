@@ -3,6 +3,8 @@ import REPL from "./REPL";
 
 /**
  * This is the highest level component!
+ * It contains our REPL component, which is where everything is displayed: 
+ * the REPLHistory and the REPLInput areas!
  */
 function App() {
   return (
