@@ -1,3 +1,10 @@
+/**
+ * File for all mocked data!
+ */
+
+/**
+ * string list of valid file paths
+ */
 export const validFiles: string[] = [
   "data/filepath1",
   "data/filepath2",
@@ -7,6 +14,10 @@ export const validFiles: string[] = [
   "data/dol_ri_earnings_disparity.csv",
 ];
 
+/**
+ * Map of mocked data where keys are filepaths and values are 2D arrays of 
+ * strings representing the CSV data. Used for view. 
+ */
 export const filepathMap = new Map<string, string[][]>([
   [
     "data/filepath1",
@@ -81,6 +92,13 @@ export const filepathMap = new Map<string, string[][]>([
   ],
 ]);
 
+/**
+ * Map of mocked data where keys are possible search queries including a 
+ * filepath, a column identifier, a value to search for, and a boolean 
+ * indicating whether the CSV has a header or not. The values are 2D arrays of 
+ * strings representing the rows in the CSV data containing the search value 
+ * using the column identifier critertie. Used for search.
+ */
 export const searchMap = new Map<string, string[][]>([
   ["data/filepath1 1 The true", [["The", "song", "remains", "the", "same."]]],
   [

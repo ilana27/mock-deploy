@@ -1,13 +1,28 @@
-// Note this is a .ts file, not .tsx. It's TypeScript, but not React.
+/**
+ * Search function
+ */
+
 import { Command } from "../components/REPL";
 import { validFiles, searchMap } from "../functions/mockedJson";
 
+/**
+ * Search function 
+ * @param filepath string containing the filepath
+ * @param hasHeader boolean indicating whether the given file has a header or 
+ * not
+ * @param commandString string containing the whole command given by the user
+ * @param commandArr string array containing the command given by the user, 
+ * split into individual strings by a space delimiter
+ * @returns a Command with the command string, the result of searching, and a
+ * message indicating search success or an error. 
+ */
 export function search(
   filepath: string,
   hasHeader: boolean,
   commandString: string,
   commandArr: string[]
 ) {
+  // attempt to find the result of the search query in the map of mocked data 
   let result = searchMap.get(
     filepath +
       " " +
