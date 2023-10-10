@@ -68,6 +68,7 @@ test("mode then view (without load), verbose mode", async ({ page }) => {
       "View success!"
     );
     /** check that the data table was loaded */
+    await expect(page.getByLabel('data2')).toBeVisible();
     await expect(page.getByLabel('data2').getByRole('cell', { name: 'song' })).toHaveText("song");
   });
 

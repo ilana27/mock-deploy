@@ -194,6 +194,7 @@ test.beforeEach(() => {
         await expect(page.getByLabel("commandMessage2")).toHaveText(
           "Search success!"
         );
+        await expect(page.getByLabel('data2')).toBeVisible;
         await expect(page.getByLabel('data2').getByRole('cell', { name: 'White' })).toHaveText("White");
         await expect(page.getByLabel('data2').getByRole('cell', { name: 'Black' })).toHaveText("Black");
         await expect(page.getByLabel('data2').getByRole('cell', { name: 'Native American/American Indian' })).toHaveText("Native American/American Indian");

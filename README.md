@@ -17,8 +17,10 @@ TO DO ->
 
 Here are a few notable design choices we made:
 
-- We chose to ...
+- We chose to use the App.tsx file as the main driver for the website, with REPL as the exported function running the main page. REPL calls REPLHistory, which displays the past commands and outputs given by the user, and REPLInput, which handles the input from the user by parsing the text and calling the appropriate functions for load_file, view, and search. 
+- We chose to wrap commands in a class called "Command" which is stored in REPL. A Command contains the command input, the data returned from running the command, and a message indicating success or an error.  
 - We chose to represent the current 'mode' that the program is in with a share state of a boolean value. For this shared boolean, true represents 'brief' mode, the default, and false represents 'verbose' mode.
+- We chose to display output from view and search as HTML tables, which we create in our CsvTable function, which takes in a 2D array of strings. 
 
 Moreover, here are some sources we used to learn how to implement specific pieces of functionality:
 
@@ -28,13 +30,13 @@ Moreover, here are some sources we used to learn how to implement specific piece
 
 ## Errors/Bugs:
 
-There are no remaining bugs in our program that we are aware of.
+One small bug that could come up is if someone tries to search for a value by a column name that has a space in it, like "Median Household Income." This is because we parse the different inputs in our command by splitting the command string on spaces, so the column name also gets split. 
 
 ## Tests:
 
 TO DO ->
 
-In testing, we ...
+For our testing, we split our tests into multiple files: BasicFunctionality.spec.ts, ModeExtra.spec.ts, Load.spec.ts, View.spec.ts, Search.spec.ts, and Integration.spec.ts. BasicFunctionality just tests general page functionality, for example making sure all the elements load properly.
 
 ## Running the tests:
 
