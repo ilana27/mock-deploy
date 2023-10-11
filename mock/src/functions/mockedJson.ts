@@ -12,6 +12,7 @@ export const validFiles: string[] = [
   "data/ten-star_no_headings.csv",
   "data/empty.csv",
   "data/dol_ri_earnings_disparity.csv",
+  "data/one-column.csv",
 ];
 
 /**
@@ -89,6 +90,10 @@ export const filepathMap = new Map<string, string[][]>([
       ["RI", "Hispanic/Latino", " $673.14 ", "74596.18851", " $0.64 ", "14%"],
       ["RI", "Multiracial", " $971.89 ", "8883.049171", " $0.92 ", "2%"],
     ],
+  ],
+  [
+    "data/one-column.csv",
+    [["Letter"], ["A (vowel)"], ["B"], ["B"], ["C"], ["Y (sometimes a vowel)"]],
   ],
 ]);
 
@@ -219,4 +224,8 @@ export const searchMap = new Map<string, string[][]>([
     "data/dol_ri_earnings_disparity.csv 1 White true",
     [["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"]],
   ],
+  ["data/one-column.csv 0 A (vowel) true", [["A (vowel)"]]],
+  ["data/one-column.csv 0 B true", [["B"], ["B"]]],
+  ["data/one-column.csv Letter A (vowel) true", [["A (vowel)"]]],
+  ["data/one-column.csv Letter B true", [["B"], ["B"]]],
 ]);

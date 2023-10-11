@@ -598,3 +598,55 @@ test("call search after loaded earnings disparity csv, col and val string has sp
     page.getByLabel("data2").getByRole("cell", { name: "0%", exact: true })
   ).toBeVisible();
 });
+
+/**
+ * This test calls search after one-column file has been loaded, and searches the only
+ * existing column. Multiple identical rows are found (which are one cell each).
+ * It is in verbose mode, so we check the output shown to make sure that the proper command,
+ * proper success message, and proper rows of data are shown.
+ */
+test("call search after loaded earnings one-col csv, multiple identical rows, verbose mode", async ({
+  page,
+}) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  // set into verbose mode
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+  await expect(page.getByLabel("commandString0")).toHaveText("mode");
+  await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
+  // load_file
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file data/one-column.csv");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+  await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search 0 B");
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 2 times" }).click();
+  await expect(page.getByLabel("commandMessage2")).toHaveText(
+    "Search success!"
+  );
+  // Check that table shows up
+  await expect(page.getByLabel("data2")).toBeVisible();
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill('search "Letter" B');
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 3 times" }).click();
+  await expect(page.getByLabel("commandMessage3")).toHaveText(
+    "Search success!"
+  );
+  // Check that table shows up
+  await expect(page.getByLabel("data3")).toBeVisible();
+  await expect(
+    page.getByLabel("data3").getByRole("cell", { name: "B" }).nth(0)
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("data3").getByRole("cell", { name: "B" }).nth(1)
+  ).toBeVisible();
+});
