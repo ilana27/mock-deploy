@@ -391,6 +391,57 @@ test("call search after loaded ten-star csv, one row found, no headers, nothing 
 });
 
 /**
+ * This test calls search after ten-star file has been loaded, specifying that there
+ * are no headers. We try to search a non-numeric column ID, even though there are
+ * no headers, so the search finds nothing. Then load again, implicitly with headers, and
+ * the search succeeds (we find one row matching). It is in verbose mode, so we check the
+ * output shown to make sure that the proper command and proper error message are shown.
+ */
+test("call search after loaded ten-star csv, no headers, nothing found, headers, found, verbose mode", async ({
+  page,
+}) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  // set into verbose mode
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+  await expect(page.getByLabel("commandString0")).toHaveText("mode");
+  await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
+  // load_file without headers
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv false");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+  await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search StarID 0");
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 2 times" }).click();
+  await expect(page.getByLabel("commandMessage2")).toHaveText(
+    'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
+  );
+  // load_file with headers
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page.getByRole("button", { name: "Submitted 3 times" }).click();
+  await expect(page.getByLabel("commandMessage3")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search StarID 0");
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 4 times" }).click();
+  await expect(page.getByLabel("commandMessage4")).toHaveText(
+    "Search success!"
+  );
+  await expect(page.getByLabel("data4")).toHaveText("0Sol000");
+});
+
+/**
  * This test calls search after ten-star file has been loaded, multiple matching rows are found.
  * It is in verbose mode, so we check the output shown to make sure that the proper command,
  * proper success message, and proper rows of data are shown.
