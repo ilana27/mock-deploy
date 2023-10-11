@@ -4,12 +4,12 @@ import { validFiles } from "../functions/mockedJson";
 
 /**
  * Load function which attempts to load a file from the mocked data and sets
- * the hasHeader boolean in REPLInput to true or false. 
- * @param commandArr array of strings where the first element should be the 
- * command, the second element should be the filepath, and the third element 
+ * the hasHeader boolean in REPLInput to true or false.
+ * @param commandArr array of strings where the first element should be the
+ * command, the second element should be the filepath, and the third element
  * could be the hasHeader boolean. If the third hasHeader argument is not there,
- * then default to true. 
- * @param setHeader the useState Hook function that can set the hasHeader 
+ * then default to true.
+ * @param setHeader the useState Hook function that can set the hasHeader
  * boolean in REPLInput.
  * @returns a message indicating either Load success! or an error.
  */
@@ -30,7 +30,9 @@ export function load(
       "Error: filepath " + filepath + " located in an unaccessible directory."
     );
   }
-  if (commandArr.length > 2) {
+  if (commandArr.length == 2) {
+    setHeader(true);
+  } else if (commandArr.length > 2) {
     let hasHeader = commandArr[2];
     if (hasHeader.toLowerCase() === "true") {
       setHeader(true);
@@ -40,7 +42,7 @@ export function load(
       return "Error: header parameter must be either true or false.";
     }
   }
-  // Check that the filepath is in the list of valid files 
+  // Check that the filepath is in the list of valid files
   if (validFiles.includes(filepath)) {
     return "Load success!";
   }
