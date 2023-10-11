@@ -15,8 +15,8 @@ export const validFiles: string[] = [
 ];
 
 /**
- * Map of mocked data where keys are filepaths and values are 2D arrays of 
- * strings representing the CSV data. Used for view. 
+ * Map of mocked data where keys are filepaths and values are 2D arrays of
+ * strings representing the CSV data. Used for view.
  */
 export const filepathMap = new Map<string, string[][]>([
   [
@@ -62,11 +62,11 @@ export const filepathMap = new Map<string, string[][]>([
     [
       [
         "State",
-        "DataType",
-        "AverageWeeklyEarnings",
-        "NumberofWorkers",
-        "EarningsDisparity",
-        "EmployedPercent",
+        "Data Type",
+        "Average Weekly Earnings",
+        "Number of Workers",
+        "Earnings Disparity",
+        "Employed Percent",
       ],
       ["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"],
       ["RI", "Black", " $770.26 ", "30424.80376", " $0.73 ", "6%"],
@@ -93,10 +93,10 @@ export const filepathMap = new Map<string, string[][]>([
 ]);
 
 /**
- * Map of mocked data where keys are possible search queries including a 
- * filepath, a column identifier, a value to search for, and a boolean 
- * indicating whether the CSV has a header or not. The values are 2D arrays of 
- * strings representing the rows in the CSV data containing the search value 
+ * Map of mocked data where keys are possible search queries including a
+ * filepath, a column identifier, a value to search for, and a boolean
+ * indicating whether the CSV has a header or not. The values are 2D arrays of
+ * strings representing the rows in the CSV data containing the search value
  * using the column identifier critertie. Used for search.
  */
 export const searchMap = new Map<string, string[][]>([
@@ -199,8 +199,21 @@ export const searchMap = new Map<string, string[][]>([
   ],
   ["data/dol_ri_earnings_disparity.csv State OH true", []],
   [
-    "data/dol_ri_earnings_disparity.csv DataType White true",
+    "data/dol_ri_earnings_disparity.csv Data Type White true",
     [["RI", "White", '" $1,058.47 "', "395773.6521", " $1.00 ", "75%"]],
+  ],
+  [
+    "data/dol_ri_earnings_disparity.csv Data Type Native American/American Indian true",
+    [
+      [
+        "RI",
+        "Native American/American Indian",
+        " $471.07 ",
+        "2315.505646",
+        " $0.45 ",
+        "0%",
+      ],
+    ],
   ],
   [
     "data/dol_ri_earnings_disparity.csv 1 White true",

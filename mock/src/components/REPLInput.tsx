@@ -74,7 +74,7 @@ export function REPLInput(props: REPLInputProps) {
       newCommand = view(filepath, commandString);
     } else if (command === "search") {
       // search
-      newCommand = search(filepath, hasHeader, commandString, commandArr);
+      newCommand = search(filepath, hasHeader, commandString);
     } else {
       // unrecognized command
       newCommand = new Command(

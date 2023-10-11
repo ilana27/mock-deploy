@@ -15,20 +15,21 @@ Total estimated time: ~20 hours
 
 Here are a few notable design choices we made:
 
-- We chose to use the App.tsx file as the main driver for the website, with REPL as the exported function running the main page. REPL calls REPLHistory, which displays the past commands and outputs given by the user, and REPLInput, which handles the input from the user by parsing the text and calling the appropriate functions for load_file, view, and search. 
-- We chose to wrap commands in a class called "Command" which is stored in a file called Command.ts. A Command contains the command input, the data returned from running the command, and a message indicating success or an error.  
+- We chose to use the App.tsx file as the main driver for the website, with REPL as the exported function running the main page. REPL calls REPLHistory, which displays the past commands and outputs given by the user, and REPLInput, which handles the input from the user by parsing the text and calling the appropriate functions for load_file, view, and search.
+- We chose to wrap commands in a class called "Command" which is stored in a file called Command.ts. A Command contains the command input, the data returned from running the command, and a message indicating success or an error.
 - We chose to represent the current 'mode' that the program is in with a share state of a boolean value. For this shared boolean, true represents 'brief' mode, the default, and false represents 'verbose' mode.
-- We chose to display output from view and search as HTML tables, which we create in our CsvTable function, which takes in a 2D array of strings. 
+- We chose to display output from view and search as HTML tables, which we create in our CsvTable function, which takes in a 2D array of strings.
 
 Moreover, here are some sources we used to learn how to implement specific pieces of functionality:
 
 - [Here]https://www.bekk.christmas/post/2020/22/create-a-generic-table-with-react-and-typescript is the source we used to learn how to use
   Typescript to dynamically create an HTML table.
 - [Here]https://stackoverflow.com/questions/37620694/how-to-scroll-to-bottom-in-react is the source we used to learn how to make our REPLHistory box autoscroll.
+- [Here] https://stackoverflow.com/questions/16261635/javascript-split-string-by-space-but-ignore-space-in-quotes-notice-not-to-spli is the source we used to learn how to split a string on spaces, but not on quotation marks
 
 ## Errors/Bugs:
 
-One small bug that could come up is if someone tries to search for a value by a column name that has a space in it, like "Median Household Income." This is because we parse the different inputs in our command by splitting the command string on spaces, so the column name also gets split. 
+One small bug that could come up is if someone tries to search for a value by a column name that has a space in it, like "Median Household Income." This is because we parse the different inputs in our command by splitting the command string on spaces, so the column name also gets split.
 
 ## Tests:
 
@@ -44,6 +45,6 @@ To run our program locally, first run `npm install`, to ensure that you have all
 
 On the page, valid commands include:
 mode: changes the mode from brief to verbose and vice versa
-load &lt;filepath&gt; &lt;OPTIONAL hasHeader = true or false&gt;: loads in a CSV from the given filepath, hasHeader parameter is optional and will default to true if not given one. 
+load &lt;filepath&gt; &lt;OPTIONAL hasHeader = true or false&gt;: loads in a CSV from the given filepath, hasHeader parameter is optional and will default to true if not given one.
 view: displays the currently-loaded CSV
 search &lt;column identifier = column index or column name&gt; &lt;value&gt;: searches the currently-loaded CSV for the given value in the column corresponding with the column identifier

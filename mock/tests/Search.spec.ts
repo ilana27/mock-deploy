@@ -443,3 +443,107 @@ test("call search after loaded earnings disparity csv, with parameters, multiple
     page.getByLabel("data2").getByRole("cell", { name: "Multiracial" })
   ).toBeVisible();
 });
+
+/**
+ * This test calls search after ten-star file has been loaded, and the search string contains
+ * a space in the column name. One matching row is found.
+ * It is in verbose mode, so we check the output shown to make sure that the proper command,
+ * proper success message, and proper rows of data are shown.
+ */
+test("call search after loaded earnings disparity csv, col string has space, verbose mode", async ({
+  page,
+}) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  // set into verbose mode
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+  await expect(page.getByLabel("commandString0")).toHaveText("mode");
+  await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
+  // load_file
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/dol_ri_earnings_disparity.csv");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+  await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill('search "Data Type" White');
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 2 times" }).click();
+  await expect(page.getByLabel("commandMessage2")).toHaveText(
+    "Search success!"
+  );
+  // Check that table shows up
+  await expect(page.getByLabel("data2")).toBeVisible();
+  // Check that all expected rows are in the table
+  await expect(
+    page.getByLabel("data2").getByRole("cell", { name: "White" })
+  ).toBeVisible();
+});
+
+/**
+ * This test calls search after ten-star file has been loaded, and the search string contains
+ * a space in the column name and the value name. One matching row is found.
+ * It is in verbose mode, so we check the output shown to make sure that the proper command,
+ * proper success message, and proper rows of data are shown.
+ */
+test("call search after loaded earnings disparity csv, col and val string has space, verbose mode", async ({
+  page,
+}) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  // set into verbose mode
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+  await expect(page.getByLabel("commandString0")).toHaveText("mode");
+  await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
+  // load_file
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/dol_ri_earnings_disparity.csv");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+  await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill('search "Data Type" "Native American/American Indian"');
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 2 times" }).click();
+  await expect(page.getByLabel("commandMessage2")).toHaveText(
+    "Search success!"
+  );
+  // Check that table shows up
+  await expect(page.getByLabel("data2")).toBeVisible();
+  // Check that all expected rows are in the table
+  await expect(
+    page.getByLabel("data2").getByRole("cell", { name: "RI", exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("data2").getByRole("cell", {
+      name: "Native American/American Indian",
+      exact: true,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("data2").getByRole("cell", { name: "$471.07", exact: true })
+  ).toBeVisible();
+  await expect(
+    page
+      .getByLabel("data2")
+      .getByRole("cell", { name: "2315.505646", exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("data2").getByRole("cell", { name: "$0.45", exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByLabel("data2").getByRole("cell", { name: "0%", exact: true })
+  ).toBeVisible();
+});
