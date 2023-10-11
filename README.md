@@ -47,4 +47,4 @@ On the page, valid commands include:
 mode: changes the mode from brief to verbose and vice versa
 load &lt;filepath&gt; &lt;OPTIONAL hasHeader = true or false&gt;: loads in a CSV from the given filepath, hasHeader parameter is optional and will default to true if not given one.
 view: displays the currently-loaded CSV
-search &lt;column identifier = column index or column name&gt; &lt;value&gt;: searches the currently-loaded CSV for the given value in the column corresponding with the column identifier
+search &lt;column identifier = column index or column name&gt; &lt;value&gt;: searches the currently-loaded CSV for the given value in the column corresponding with the column identifier. If a column name is given, it must be in quotations to indicate to the search function that the column name is within the quotes. This was designed because our function parses the search command by splitting on spaces.
