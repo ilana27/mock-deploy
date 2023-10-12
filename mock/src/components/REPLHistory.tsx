@@ -45,7 +45,7 @@ export function REPLHistory(props: REPLHistoryProps) {
             <p aria-label={"commandMessage" + String(index)}>
               {command.message}
             </p>
-            <CsvTable data={command.data} />
+            <CsvTable data={command.data} ariaLabel={"data" + String(index)} />
             <br />
             <hr />
           </div>
@@ -60,9 +60,7 @@ export function REPLHistory(props: REPLHistoryProps) {
             <span aria-label={"commandMessage" + String(index)}>
               {command.message}
             </span>
-            <span aria-label={"data" + String(index)}>
-              <CsvTable data={command.data} />
-            </span>
+            <CsvTable data={command.data} ariaLabel={"data" + String(index)} />
             <br />
             <hr />
           </div>

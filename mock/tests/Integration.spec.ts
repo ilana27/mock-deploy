@@ -8,12 +8,6 @@ import { test, expect } from "@playwright/test";
   Look for this pattern in the tests below!
  */
 
-// If you needed to do something before every test case...
-test.beforeEach(() => {
-  // ... you'd put it here.
-  // TODO: Is there something we need to do before every test case to avoid repeating code?
-});
-
 /**
  * test load and view with mode, then without mode
  */
@@ -41,9 +35,20 @@ test("mode, load, and view success (verbose mode then brief mode)", async ({
   await expect(page.getByLabel("commandString2")).toHaveText("view");
   await expect(page.getByLabel("commandMessage2")).toHaveText("View success!");
   /** check that the data table was loaded */
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "song" })
-  ).toHaveText("song");
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("data2cell0,0")).toHaveText("1");
+  await expect(page.getByLabel("data2cell0,1")).toHaveText("2");
+  await expect(page.getByLabel("data2cell0,2")).toHaveText("3");
+  await expect(page.getByLabel("data2cell0,3")).toHaveText("4");
+  await expect(page.getByLabel("data2cell0,4")).toHaveText("5");
+  await expect(page.getByLabel("data2cell1,0")).toHaveText("The");
+  await expect(page.getByLabel("data2cell1,1")).toHaveText("song");
+  await expect(page.getByLabel("data2cell1,2")).toHaveText("remains");
+  await expect(page.getByLabel("data2cell1,3")).toHaveText("the");
+  await expect(page.getByLabel("data2cell1,4")).toHaveText("same.");
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText(
+    "12345Thesongremainsthesame."
+  );
 
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("mode");
@@ -54,7 +59,7 @@ test("mode, load, and view success (verbose mode then brief mode)", async ({
   await page.getByLabel("Command input").fill("view");
   await page.getByRole("button", { name: "Submitted 4 times" }).click();
   await expect(page.getByLabel("commandMessage4")).toHaveText("View success!");
-  await expect(page.getByLabel("data4")).toBeVisible;
+  await expect(page.getByLabel("data4", { exact: true })).toBeVisible;
 });
 
 /**
@@ -71,10 +76,10 @@ test("mode, load valid file and view, load invalid file and view, verbose mode",
   await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
 
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/filepath1");
+  await page.getByLabel("Command input").fill("load_file data/filepath1 true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandString1")).toHaveText(
-    "load_file data/filepath1"
+    "load_file data/filepath1 true"
   );
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
 
@@ -84,9 +89,20 @@ test("mode, load valid file and view, load invalid file and view, verbose mode",
   await expect(page.getByLabel("commandString2")).toHaveText("view");
   await expect(page.getByLabel("commandMessage2")).toHaveText("View success!");
   /** check that the data table was loaded */
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "song" })
-  ).toHaveText("song");
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("data2cell0,0")).toHaveText("1");
+  await expect(page.getByLabel("data2cell0,1")).toHaveText("2");
+  await expect(page.getByLabel("data2cell0,2")).toHaveText("3");
+  await expect(page.getByLabel("data2cell0,3")).toHaveText("4");
+  await expect(page.getByLabel("data2cell0,4")).toHaveText("5");
+  await expect(page.getByLabel("data2cell1,0")).toHaveText("The");
+  await expect(page.getByLabel("data2cell1,1")).toHaveText("song");
+  await expect(page.getByLabel("data2cell1,2")).toHaveText("remains");
+  await expect(page.getByLabel("data2cell1,3")).toHaveText("the");
+  await expect(page.getByLabel("data2cell1,4")).toHaveText("same.");
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText(
+    "12345Thesongremainsthesame."
+  );
 
   await page.getByLabel("Command input").click();
   await page
@@ -127,7 +143,7 @@ test("failed load_file, failed search, successful load_file, a failed search, th
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
-    .fill("load_file data/non-existent-file.csv");
+    .fill("load_file data/non-existent-file.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText(
     "Error: data/non-existent-file.csv not found"
@@ -144,10 +160,10 @@ test("failed load_file, failed search, successful load_file, a failed search, th
   );
 
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/filepath1");
+  await page.getByLabel("Command input").fill("load_file data/filepath1 true");
   await page.getByRole("button", { name: "Submitted 3 times" }).click();
   await expect(page.getByLabel("commandString3")).toHaveText(
-    "load_file data/filepath1"
+    "load_file data/filepath1 true"
   );
   await expect(page.getByLabel("commandMessage3")).toHaveText("Load success!");
 
@@ -160,6 +176,7 @@ test("failed load_file, failed search, successful load_file, a failed search, th
   await expect(page.getByLabel("commandMessage4")).toHaveText(
     "Error: search unsuccessful, could not find the value in the given column."
   );
+  await expect(page.getByLabel("data4", { exact: true })).toBeEmpty();
 
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("search 1 The");
@@ -168,9 +185,16 @@ test("failed load_file, failed search, successful load_file, a failed search, th
   await expect(page.getByLabel("commandMessage5")).toHaveText(
     "Search success!"
   );
-  await expect(
-    page.getByLabel("data5").getByRole("cell", { name: "song" })
-  ).toHaveText("song");
+  /** check that the data table was loaded */
+  await expect(page.getByLabel("data5", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("data5cell0,0")).toHaveText("The");
+  await expect(page.getByLabel("data5cell0,1")).toHaveText("song");
+  await expect(page.getByLabel("data5cell0,2")).toHaveText("remains");
+  await expect(page.getByLabel("data5cell0,3")).toHaveText("the");
+  await expect(page.getByLabel("data5cell0,4")).toHaveText("same.");
+  await expect(page.getByLabel("data5", { exact: true })).toHaveText(
+    "Thesongremainsthesame."
+  );
 });
 
 /**
@@ -191,10 +215,10 @@ test("successful load_file, successful search, successful load_file, failed sear
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
-    .fill("load_file data/dol_ri_earnings_disparity.csv");
+    .fill("load_file data/dol_ri_earnings_disparity.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandString1")).toHaveText(
-    "load_file data/dol_ri_earnings_disparity.csv"
+    "load_file data/dol_ri_earnings_disparity.csv true"
   );
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
 
@@ -205,35 +229,35 @@ test("successful load_file, successful search, successful load_file, failed sear
   await expect(page.getByLabel("commandMessage2")).toHaveText(
     "Search success!"
   );
-  await expect(page.getByLabel("data2")).toBeVisible;
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "White" })
-  ).toHaveText("White");
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Black" })
-  ).toHaveText("Black");
-  await expect(
-    page
-      .getByLabel("data2")
-      .getByRole("cell", { name: "Native American/American Indian" })
-  ).toHaveText("Native American/American Indian");
-  await expect(
-    page
-      .getByLabel("data2")
-      .getByRole("cell", { name: "Asian-Pacific Islander" })
-  ).toHaveText("Asian-Pacific Islander");
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Hispanic/Latino" })
-  ).toHaveText("Hispanic/Latino");
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Multiracial" })
-  ).toHaveText("Multiracial");
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible;
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
+  // Check that all expected rows are in the table
+  await expect(page.getByLabel("data2cell0,1", { exact: true })).toHaveText(
+    "White"
+  );
+  await expect(page.getByLabel("data2cell1,1", { exact: true })).toHaveText(
+    "Black"
+  );
+  await expect(page.getByLabel("data2cell2,1", { exact: true })).toHaveText(
+    "Native American/American Indian"
+  );
+  await expect(page.getByLabel("data2cell3,1", { exact: true })).toHaveText(
+    "Asian-Pacific Islander"
+  );
+  await expect(page.getByLabel("data2cell4,1", { exact: true })).toHaveText(
+    "Hispanic/Latino"
+  );
+  await expect(page.getByLabel("data2cell5,1", { exact: true })).toHaveText(
+    "Multiracial"
+  );
 
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv true");
   await page.getByRole("button", { name: "Submitted 3 times" }).click();
   await expect(page.getByLabel("commandString3")).toHaveText(
-    "load_file data/ten-star.csv"
+    "load_file data/ten-star.csv true"
   );
   await expect(page.getByLabel("commandMessage3")).toHaveText("Load success!");
 
@@ -244,6 +268,7 @@ test("successful load_file, successful search, successful load_file, failed sear
   await expect(page.getByLabel("commandMessage4")).toHaveText(
     "Error: search unsuccessful, could not find the value in the given column."
   );
+  await expect(page.getByLabel("data4", { exact: true })).toBeEmpty();
 
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("search StarID 0");
@@ -252,9 +277,23 @@ test("successful load_file, successful search, successful load_file, failed sear
   await expect(page.getByLabel("commandMessage5")).toHaveText(
     "Search success!"
   );
-  await expect(
-    page.getByLabel("data5").getByRole("cell", { name: "Sol" })
-  ).toHaveText("Sol");
+  await expect(page.getByLabel("data5", { exact: true })).toBeVisible();
+  // Check that all expected rows are in the table
+  await expect(page.getByLabel("data5cell0,0", { exact: true })).toHaveText(
+    "0"
+  );
+  await expect(page.getByLabel("data5cell0,1", { exact: true })).toHaveText(
+    "Sol"
+  );
+  await expect(page.getByLabel("data5cell0,2", { exact: true })).toHaveText(
+    "0"
+  );
+  await expect(page.getByLabel("data5cell0,3", { exact: true })).toHaveText(
+    "0"
+  );
+  await expect(page.getByLabel("data5cell0,4", { exact: true })).toHaveText(
+    "0"
+  );
 });
 
 /**
@@ -291,6 +330,7 @@ test("successful load_file without headers, unsuccessful search, successful load
   await expect(page.getByLabel("commandMessage2")).toHaveText(
     'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
   );
+  await expect(page.getByLabel("data2", { exact: true })).toBeEmpty();
   // Load same file with headers
   await page.getByLabel("Command input").click();
   await page
@@ -309,6 +349,58 @@ test("successful load_file without headers, unsuccessful search, successful load
   await expect(page.getByLabel("commandMessage4")).toHaveText(
     "Search success!"
   );
-  await expect(page.getByLabel("data4")).toBeVisible();
-  await expect(page.getByLabel("data4")).toHaveText("0Sol000");
+  await expect(page.getByLabel("data4", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("data4", { exact: true })).toHaveText("0Sol000");
+});
+
+/**
+ * This test calls search after ten-star file has been loaded, specifying that there
+ * are headers, the search succeeds (we find one row matching). We load again specifying
+ * that there are no headers this time, so the search finds nothing. It is in verbose mode,
+ * so we check the output shown to make sure that the proper command and proper error
+ * message are shown.
+ */
+test("call search after loaded ten-star csv, with headers, found, no headers, nothing found, verbose mode", async ({
+  page,
+}) => {
+  // Notice: http, not https! Our front-end is not set up for HTTPs.
+  await page.goto("http://localhost:8000/");
+  // set into verbose mode
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+  await expect(page.getByLabel("commandString0")).toHaveText("mode");
+  await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
+  // load_file without headers
+  await page.getByLabel("Command input").click();
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv true");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+  await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search StarID 0");
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 2 times" }).click();
+  await expect(page.getByLabel("commandMessage2")).toHaveText(
+    "Search success!"
+  );
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText("0Sol000");
+  // load_file with headers
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page.getByRole("button", { name: "Submitted 3 times" }).click();
+  await expect(page.getByLabel("commandMessage3")).toHaveText("Load success!");
+  // Write into command box
+  await expect(page.getByLabel("Command input")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search StarID 0");
+  // Submit command
+  await page.getByRole("button", { name: "Submitted 4 times" }).click();
+  await expect(page.getByLabel("commandMessage4")).toHaveText(
+    'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
+  );
+  await expect(page.getByLabel("data4", { exact: true })).toBeEmpty();
 });

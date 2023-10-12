@@ -30,8 +30,9 @@ export function load(
       "Error: filepath " + filepath + " located in an unaccessible directory."
     );
   }
+  // By default, set hasHeader to false
   if (commandArr.length == 2) {
-    setHeader(true);
+    setHeader(false);
   } else if (commandArr.length > 2) {
     let hasHeader = commandArr[2];
     if (hasHeader.toLowerCase() === "true") {

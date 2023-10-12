@@ -6,6 +6,7 @@
  */
 interface CsvTableProps {
   data: string[][];
+  ariaLabel: string;
 }
 
 /**
@@ -19,14 +20,27 @@ export default function CsvTable(props: CsvTableProps) {
     return (
       <tr key={`row-${index}`}>
         {row.map((column: string, index2: number) => {
-          return <td key={`cell-${index2}`}>{column}</td>;
+          return (
+            <td
+              key={`cell-${index2}`}
+              aria-label={
+                props.ariaLabel +
+                "cell" +
+                String(index) +
+                "," +
+                String(index2)
+              }
+            >
+              {column}
+            </td>
+          );
         })}
       </tr>
     );
   });
 
   return (
-    <table>
+    <table aria-label={props.ariaLabel}>
       <tbody>{rows}</tbody>
     </table>
   );

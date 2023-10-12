@@ -213,6 +213,7 @@ test("call search after loaded ten-star csv, without parameters, brief mode", as
   await expect(page.getByLabel("commandMessage1")).toHaveText(
     "Error: incorrect number of arguments given to search command. Two arguments expected: <column> <value>."
   );
+  await expect(page.getByLabel("data1", { exact: true })).toBeEmpty();
 });
 
 /**
@@ -227,7 +228,9 @@ test("call search after loaded ten-star csv, with parameters, no rows found, bri
   await page.goto("http://localhost:8000/");
   // load_file
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv true");
   await page.getByRole("button", { name: "Submitted 0 times" }).click();
   await expect(page.getByLabel("commandMessage0")).toHaveText("Load success!");
   // Write into command box
@@ -239,6 +242,7 @@ test("call search after loaded ten-star csv, with parameters, no rows found, bri
   await expect(page.getByLabel("commandMessage1")).toHaveText(
     'Search success! However, no rows matching the search criteria "search StarID 4" were found.'
   );
+  await expect(page.getByLabel("data1", { exact: true })).toBeEmpty();
 });
 
 /**
@@ -259,7 +263,9 @@ test("call search after loaded ten-star csv, with parameters, one row found, ver
   await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
   // load_file
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -272,9 +278,9 @@ test("call search after loaded ten-star csv, with parameters, one row found, ver
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that the expected row is in the table
-  await expect(page.getByLabel("data2")).toHaveText("0Sol000");
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText("0Sol000");
 });
 
 /**
@@ -311,9 +317,9 @@ test("call search after loaded ten-star csv, with headers, one row found, verbos
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that the expected row is in the table
-  await expect(page.getByLabel("data2")).toHaveText("0Sol000");
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText("0Sol000");
 });
 
 /**
@@ -350,9 +356,9 @@ test("call search after loaded ten-star csv, one row found, no headers, verbose 
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that the expected row is in the table
-  await expect(page.getByLabel("data2")).toHaveText("0Sol000");
+  await expect(page.getByLabel("data2", { exact: true })).toHaveText("0Sol000");
 });
 
 /**
@@ -388,12 +394,13 @@ test("call search after loaded ten-star csv, one row found, no headers, nothing 
   await expect(page.getByLabel("commandMessage2")).toHaveText(
     'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
   );
+  await expect(page.getByLabel("data2", { exact: true })).toBeEmpty();
 });
 
 /**
  * This test calls search after ten-star file has been loaded, specifying that there
  * are no headers. We try to search a non-numeric column ID, even though there are
- * no headers, so the search finds nothing. Then load again, implicitly with headers, and
+ * no headers, so the search finds nothing. Then load again, now with headers, and
  * the search succeeds (we find one row matching). It is in verbose mode, so we check the
  * output shown to make sure that the proper command and proper error message are shown.
  */
@@ -410,9 +417,7 @@ test("call search after loaded ten-star csv, no headers, nothing found, headers,
   await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
   // load_file without headers
   await page.getByLabel("Command input").click();
-  await page
-    .getByLabel("Command input")
-    .fill("load_file data/ten-star.csv false");
+  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -424,9 +429,12 @@ test("call search after loaded ten-star csv, no headers, nothing found, headers,
   await expect(page.getByLabel("commandMessage2")).toHaveText(
     'Error: search unsuccessful, could not search non-numeric column ID "StarID" in file with no headers.'
   );
+  await expect(page.getByLabel("data2", { exact: true })).toBeEmpty();
   // load_file with headers
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/ten-star.csv");
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/ten-star.csv true");
   await page.getByRole("button", { name: "Submitted 3 times" }).click();
   await expect(page.getByLabel("commandMessage3")).toHaveText("Load success!");
   // Write into command box
@@ -438,7 +446,7 @@ test("call search after loaded ten-star csv, no headers, nothing found, headers,
   await expect(page.getByLabel("commandMessage4")).toHaveText(
     "Search success!"
   );
-  await expect(page.getByLabel("data4")).toHaveText("0Sol000");
+  await expect(page.getByLabel("data4", { exact: true })).toHaveText("0Sol000");
 });
 
 /**
@@ -461,7 +469,7 @@ test("call search after loaded earnings disparity csv, with parameters, multiple
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
-    .fill("load_file data/dol_ri_earnings_disparity.csv");
+    .fill("load_file data/dol_ri_earnings_disparity.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -474,25 +482,26 @@ test("call search after loaded earnings disparity csv, with parameters, multiple
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that all expected rows are in the table
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "White" })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Black" })
-  ).toBeVisible();
-  await expect(
-    page
-      .getByLabel("data2")
-      .getByRole("cell", { name: "Native American/American Indian" })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Hispanic/Latino" })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "Multiracial" })
-  ).toBeVisible();
+  await expect(page.getByLabel("data2cell0,1", { exact: true })).toHaveText(
+    "White"
+  );
+  await expect(page.getByLabel("data2cell1,1", { exact: true })).toHaveText(
+    "Black"
+  );
+  await expect(page.getByLabel("data2cell2,1", { exact: true })).toHaveText(
+    "Native American/American Indian"
+  );
+  await expect(page.getByLabel("data2cell3,1", { exact: true })).toHaveText(
+    "Asian-Pacific Islander"
+  );
+  await expect(page.getByLabel("data2cell4,1", { exact: true })).toHaveText(
+    "Hispanic/Latino"
+  );
+  await expect(page.getByLabel("data2cell5,1", { exact: true })).toHaveText(
+    "Multiracial"
+  );
 });
 
 /**
@@ -516,7 +525,7 @@ test("call search after loaded earnings disparity csv, col string has space, ver
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
-    .fill("load_file data/dol_ri_earnings_disparity.csv");
+    .fill("load_file data/dol_ri_earnings_disparity.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -529,11 +538,11 @@ test("call search after loaded earnings disparity csv, col string has space, ver
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that all expected rows are in the table
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "White" })
-  ).toBeVisible();
+  await expect(page.getByLabel("data2cell0,1", { exact: true })).toHaveText(
+    "White"
+  );
 });
 
 /**
@@ -557,7 +566,7 @@ test("call search after loaded earnings disparity csv, col and val string has sp
   await page.getByLabel("Command input").click();
   await page
     .getByLabel("Command input")
-    .fill("load_file data/dol_ri_earnings_disparity.csv");
+    .fill("load_file data/dol_ri_earnings_disparity.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -572,31 +581,26 @@ test("call search after loaded earnings disparity csv, col and val string has sp
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Check that all expected rows are in the table
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "RI", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", {
-      name: "Native American/American Indian",
-      exact: true,
-    })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "$471.07", exact: true })
-  ).toBeVisible();
-  await expect(
-    page
-      .getByLabel("data2")
-      .getByRole("cell", { name: "2315.505646", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "$0.45", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data2").getByRole("cell", { name: "0%", exact: true })
-  ).toBeVisible();
+  await expect(page.getByLabel("data2cell0,0", { exact: true })).toHaveText(
+    "RI"
+  );
+  await expect(page.getByLabel("data2cell0,1", { exact: true })).toHaveText(
+    "Native American/American Indian"
+  );
+  await expect(page.getByLabel("data2cell0,2", { exact: true })).toHaveText(
+    "$471.07"
+  );
+  await expect(page.getByLabel("data2cell0,3", { exact: true })).toHaveText(
+    "2315.505646"
+  );
+  await expect(page.getByLabel("data2cell0,4", { exact: true })).toHaveText(
+    "$0.45"
+  );
+  await expect(page.getByLabel("data2cell0,5", { exact: true })).toHaveText(
+    "0%"
+  );
 });
 
 /**
@@ -618,7 +622,9 @@ test("call search after loaded earnings one-col csv, multiple identical rows, ve
   await expect(page.getByLabel("commandMessage0")).toHaveText("Mode success!");
   // load_file
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file data/one-column.csv");
+  await page
+    .getByLabel("Command input")
+    .fill("load_file data/one-column.csv true");
   await page.getByRole("button", { name: "Submitted 1 times" }).click();
   await expect(page.getByLabel("commandMessage1")).toHaveText("Load success!");
   // Write into command box
@@ -631,7 +637,7 @@ test("call search after loaded earnings one-col csv, multiple identical rows, ve
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data2")).toBeVisible();
+  await expect(page.getByLabel("data2", { exact: true })).toBeVisible();
   // Write into command box
   await expect(page.getByLabel("Command input")).toBeVisible();
   await page.getByLabel("Command input").click();
@@ -642,11 +648,11 @@ test("call search after loaded earnings one-col csv, multiple identical rows, ve
     "Search success!"
   );
   // Check that table shows up
-  await expect(page.getByLabel("data3")).toBeVisible();
-  await expect(
-    page.getByLabel("data3").getByRole("cell", { name: "B" }).nth(0)
-  ).toBeVisible();
-  await expect(
-    page.getByLabel("data3").getByRole("cell", { name: "B" }).nth(1)
-  ).toBeVisible();
+  await expect(page.getByLabel("data3", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("data3cell0,0", { exact: true })).toHaveText(
+    "B"
+  );
+  await expect(page.getByLabel("data3cell1,0", { exact: true })).toHaveText(
+    "B"
+  );
 });

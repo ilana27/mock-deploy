@@ -34,7 +34,7 @@ export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
   const [count, setCount] = useState<number>(0);
   const [filepath, setFilepath] = useState<string>("");
-  const [hasHeader, setHeader] = useState<boolean>(true);
+  const [hasHeader, setHeader] = useState<boolean>(false);
 
   // This function enables the command to be sent when the return key is pressed.
   const handleKey = (e: any) => {
